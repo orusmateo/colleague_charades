@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heads Up with Cherry Blossoms</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Bookerly:ital@0;1&display=swap');
+        body {
+            font-family: 'Bookerly', serif;
+        }
+    </style>
+</head>
+<body>
+    <script>
+        let scientists = [
+            "Aishwarya Bhattbhatt",
+            "Nastaran Bizmark",
+            "Orus Mateo Castano Suarez",
+            "lanlan chen",
+            "Aileen D",
+            "Kunal Devi",
+            "Vitor Fiacadori Costa",
+            "Pranya Gulati",
+            "Kate Hartman",
+            "Yunting He",
+            "Zubin Isaac",
+            "Rutooja Khamkar",
+            "Aranya Khurana",
+            "Matthew Nazarian",
+            "Ecem Ozturk",
+            "Jessica Patel",
+            "Abha Patil",
+            "Madhu Priya",
+            "Nicholas Puckett",
+            "Jiayun Qiu",
+            "Samarth Reddy",
+            "Weiting Shao",
+            "Juan Sulca",
+            "Nikhil Thomas",
+            "Yu-Shien Yang",
+            "Yanjia Yi",
+            "Iris Zhang",
+            "Xinzhou Zhang",
+            "Yixin Zhang",
+            "Yiqun Zhou"
+        ];
+
+        let currentScientistIndex = 0;
+        let timer = 30;
+
+        let blossoms = [];
+
+        function setup() {
+            createCanvas(windowWidth, windowHeight);
+            textSize(32);
+            textAlign(CENTER, CENTER);
+
+            for (let i = 0; i < 50; i++) {
+                blossoms.push(new Blossom());
+            }
+        }
+
+        function draw() {
+            background(135, 206, 235);
+
+            for (let blossom of blossoms) {
+                blossom.move();
+                blossom.display();
+            }
+
+            fill(0);
+            text(scientists[currentScientistIndex], width / 2, height / 2);
+
+            timer -= deltaTime / 1000;
+            if (timer <= 0) {
+                nextScientist();
+            }
+
+            fill(255, 0, 0);
+            text("Time Left: " + Math.ceil(timer), width / 2, height - 50);
+        }
+
+        function mousePressed() {
+            nextScientist();
+        }
+
+        function keyPressed() {
+            if (keyCode === LEFT_ARROW) {
+                passScientist();
+            }
+        }
+
+        function nextScientist() {
+            currentScientistIndex++;
+            if (currentScientistIndex >= scientists.length) {
+                currentScientistIndex = 0;
+            }
+            timer = 30;
+        }
+
+        function passScientist() {
+            nextScientist();
+        }
+
+        class Blossom {
+            constructor() {
+                this.x = random(width);
+                this.y = random(height);
+                this.size = random(10, 20);
+                this.xSpeed = random(-2, 2);
+                this.ySpeed = random(1, 3);
+            }
+
+            move() {
+                this.x += this.xSpeed;
+                this.y += this.ySpeed;
+
+                if (this.y > height) {
+                    this.y = 0;
+                    this.x = random(width);
+                }
+            }
+
+            display() {
+                fill(255, 192, 203);
+                noStroke();
+                ellipse(this.x, this.y, this.size);
+            }
+        }
+
+        function windowResized() {
+            resizeCanvas(windowWidth, windowHeight);
+        }
+    </script>
+</body>
+</html>
